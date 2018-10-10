@@ -38,10 +38,11 @@ GameObject:
   - component: {fileID: 212658054734451440}
   - component: {fileID: 50113119724706642}
   - component: {fileID: 58812788927331278}
+  - component: {fileID: 210620249499811196}
   - component: {fileID: 114415770963055294}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,6 +123,16 @@ MonoBehaviour:
   walkSpeed: 50
   runSpeed: 100
   jump: 9
+--- !u!210 &210620249499811196
+SortingGroup:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1831755530942560}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!212 &212658054734451440
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             rb.angularVelocity += speed;
-            if (!isGround && rb.velocity.x > -1f)
+            if (!isGround && rb.velocity.x > -3f)
             {
                 rb.velocity -= new Vector2(speed * 0.001f, 0f);
             }
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow))
         {
             rb.angularVelocity -= speed;
-            if (!isGround && rb.velocity.x < 1f)
+            if (!isGround && rb.velocity.x < 3f)
             {
                 rb.velocity += new Vector2(speed * 0.001f, 0f);
             }
