@@ -8,19 +8,19 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1275573737800032}
-  m_IsPrefabAsset: 1
---- !u!1 &1275573737800032
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1493663317992198}
+  m_IsPrefabParent: 1
+--- !u!1 &1493663317992198
 GameObject:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
+  serializedVersion: 5
   m_Component:
-  - component: {fileID: 4341014031196570}
-  - component: {fileID: 20118803049542488}
-  - component: {fileID: 81345059344131710}
+  - component: {fileID: 4804086381369304}
+  - component: {fileID: 20768226306388950}
+  - component: {fileID: 81762199279860926}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -28,12 +28,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4341014031196570
+--- !u!4 &4804086381369304
 Transform:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1275573737800032}
+  m_GameObject: {fileID: 1493663317992198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,20 +41,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &20118803049542488
+--- !u!20 &20768226306388950
 Camera:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1275573737800032}
+  m_GameObject: {fileID: 1493663317992198}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.5019608, g: 0.7529412, b: 1, a: 0}
-  m_projectionMatrixMode: 1
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -62,11 +58,11 @@ Camera:
     width: 1
     height: 1
   near clip plane: -100
-  far clip plane: 5000
-  field of view: 40
+  far clip plane: 100
+  field of view: 60
   orthographic: 1
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -81,10 +77,10 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &81345059344131710
+--- !u!81 &81762199279860926
 AudioListener:
   m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1275573737800032}
+  m_GameObject: {fileID: 1493663317992198}
   m_Enabled: 1

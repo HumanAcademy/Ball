@@ -6,7 +6,7 @@ TextureImporter:
     21300002: Enemy2_1
     21300004: Enemy2_2
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 5
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -24,8 +24,6 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
-  streamingMipmaps: 0
-  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -36,7 +34,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 0
     aniso: -1
-    mipBias: -100
+    mipBias: -1
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -83,17 +81,6 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -112,7 +99,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dff7e90c2f50d774494d1309287c9b47
+      spriteID: 1f051539a4543d74e9c456b9ca7badbb
       vertices: []
       indices: 
       edges: []
@@ -132,7 +119,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b9eda04106aa51418f1f4da06b05c0b
+      spriteID: 8fd11c1127f15044bb4acb1b7e3bca1d
       vertices: []
       indices: 
       edges: []
@@ -152,7 +139,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 897dd66a375662b42982eb940b243667
+      spriteID: 1d273291a0db74340875ad1f1d7214c1
       vertices: []
       indices: 
       edges: []
@@ -160,14 +147,12 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: daa30a1fb9ac664478a869ac76f56562
+    spriteID: eb3dc74e8b68f2148acb92aa1c192047
     vertices: []
     indices: 
     edges: []
     weights: []
   spritePackingTag: 
-  pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
