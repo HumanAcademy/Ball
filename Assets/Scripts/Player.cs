@@ -2,18 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CircleCollider2D))]
 public class Player : MonoBehaviour
 {
+    enum Mode
+    {
+        Normal,
+        Big,
+    }
+
     [SerializeField] float walkSpeed;
     [SerializeField] float runSpeed;
     [SerializeField] float jump;
+    [SerializeField] Sprite normalSprite;
+    [SerializeField] Sprite bigSprite;
+    SpriteRenderer sr = null;
     Rigidbody2D rb = null;
+    CircleCollider2D cc = null;
     bool isGround = false;
+    Mode mode = Mode.Normal;
 
     void Start()
     {
+        sr = this.GetComponent<SpriteRenderer>();
         rb = this.GetComponent<Rigidbody2D>();
+        cc = this.GetComponent<CircleCollider2D>();
     }
 
     void Update()
@@ -26,6 +41,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
+            this.transform.localScale = new Vector3(-1f, 1f, 1f);
             rb.angularVelocity += speed;
             if (!isGround && rb.velocity.x > -3f)
             {
@@ -35,6 +51,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
+            this.transform.localScale = new Vector3(1f, 1f, 1f);
             rb.angularVelocity -= speed;
             if (!isGround && rb.velocity.x < 3f)
             {
@@ -50,6 +67,11 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Z))
         {
             rb.velocity -= new Vector2(0f, Mathf.Abs(rb.velocity.y / 2f));
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            this.SetMode(Mode.Big);
         }
     }
 
@@ -84,5 +106,21 @@ public class Player : MonoBehaviour
     void OnCollisionExit2D(Collision2D collision)
     {
         OnCollisionEnter2D(collision);
+    }
+
+    void SetMode(Mode mode)
+    {
+        this.mode = mode;
+        switch(mode)
+        {
+            case Mode.Normal:
+                cc.radius = 0.5f;
+                sr.sprite = normalSprite;
+                break;
+            case Mode.Big:
+                cc.radius = 0.75f;
+                sr.sprite = bigSprite;
+                break;
+        }
     }
 }

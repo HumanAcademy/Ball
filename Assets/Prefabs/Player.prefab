@@ -123,6 +123,8 @@ MonoBehaviour:
   walkSpeed: 50
   runSpeed: 100
   jump: 9
+  normalSprite: {fileID: 21300000, guid: 7843b10cf48b30743ba7ec3985a94cb2, type: 3}
+  bigSprite: {fileID: 21300000, guid: 2ab7e1ff6fbad2a4c8ee339aad66b1de, type: 3}
 --- !u!210 &210028248310275550
 SortingGroup:
   m_ObjectHideFlags: 1
