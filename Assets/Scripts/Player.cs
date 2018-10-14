@@ -8,11 +8,10 @@ using UnityEngine;
 [RequireComponent(typeof(ParticleSystem))]
 public class Player : MonoBehaviour
 {
-    enum Mode
+    public enum Form
     {
         Normal,
         Big,
-        Fire,
     }
 
     [SerializeField] float walkSpeed;
@@ -25,8 +24,62 @@ public class Player : MonoBehaviour
     CircleCollider2D cc = null;
     ParticleSystem ps = null;
     bool isGround = false;
-    Mode mode = Mode.Normal;
-    float speedMultiplier = 1f;
+    float fireTimer = 0f;
+
+    Form _form = Form.Normal;
+    public Form form
+    {
+        get
+        {
+            return _form;
+        }
+        set
+        {
+            _form = value;
+
+            ParticleSystem.ShapeModule shape = ps.shape;
+            switch (_form)
+            {
+                case Form.Normal:
+                    cc.radius = 0.5f;
+                    sr.sprite = normalSprite;
+                    shape.radius = 0.6f;
+                    break;
+
+                case Form.Big:
+                    cc.radius = 0.75f;
+                    sr.sprite = bigSprite;
+                    shape.radius = 0.8f;
+                    break;
+            }
+        }
+    }
+
+    bool _isFire;
+    public bool isFire
+    {
+        get
+        {
+            return _isFire;
+        }
+        set
+        {
+            _isFire = value;
+
+            if (_isFire)
+            {
+                sr.color = new Color(0.5f, 0.15f, 0f);
+                ps.Play();
+                fireTimer = 10f;
+            }
+            else
+            {
+                sr.color = Color.white;
+                ps.Stop();
+                fireTimer = 0f;
+            }
+        }
+    }
 
     void Start()
     {
@@ -40,10 +93,16 @@ public class Player : MonoBehaviour
     {
         float speed = walkSpeed;
         if (Input.GetKey(KeyCode.X))
-        {
             speed = runSpeed;
+
+        if (isFire)
+        {
+            speed *= 3f;
+
+            fireTimer -= Time.deltaTime;
+            if (fireTimer <= 0f)
+                isFire = false;
         }
-        speed *= speedMultiplier;
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -73,21 +132,6 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Z))
         {
             rb.velocity -= new Vector2(0f, Mathf.Abs(rb.velocity.y / 2f));
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            this.SetMode(Mode.Normal);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            this.SetMode(Mode.Big);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            this.SetMode(Mode.Fire);
         }
     }
 
@@ -122,38 +166,5 @@ public class Player : MonoBehaviour
     void OnCollisionExit2D(Collision2D collision)
     {
         OnCollisionEnter2D(collision);
-    }
-
-    void SetMode(Mode mode)
-    {
-        this.mode = mode;
-        ParticleSystem.ShapeModule shape = ps.shape;
-
-        switch (mode)
-        {
-            case Mode.Normal:
-                cc.radius = 0.5f;
-                sr.sprite = normalSprite;
-                sr.color = Color.white;
-                shape.radius = 0.6f;
-                ps.Stop();
-                speedMultiplier = 1f;
-                break;
-
-            case Mode.Big:
-                cc.radius = 0.75f;
-                sr.sprite = bigSprite;
-                sr.color = Color.white;
-                shape.radius = 0.8f;
-                ps.Stop();
-                speedMultiplier = 1f;
-                break;
-
-            case Mode.Fire:
-                sr.color = new Color(0.5f, 0.15f, 0f);
-                ps.Play();
-                speedMultiplier = 3f;
-                break;
-        }
     }
 }
