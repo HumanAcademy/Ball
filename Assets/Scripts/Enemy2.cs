@@ -5,13 +5,23 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class Enemy1 : Character
+[RequireComponent(typeof(CircleCollider2D))]
+public class Enemy2 : Character
 {
+    enum Mode
+    {
+        Normal,
+        Roll,
+    }
+
     [SerializeField] float speed;
     [SerializeField] Sprite[] walkSprites;
+    [SerializeField] Sprite rollSprites;
     SpriteRenderer sr = null;
     Rigidbody2D rb = null;
     BoxCollider2D bc = null;
+    CircleCollider2D cc = null;
+    Mode mode = Mode.Normal;
     int walkSpriteIndex = 0;
     float animationTimer = 0f;
 
@@ -20,11 +30,15 @@ public class Enemy1 : Character
         sr = this.GetComponent<SpriteRenderer>();
         rb = this.GetComponent<Rigidbody2D>();
         bc = this.GetComponent<BoxCollider2D>();
+        cc = this.GetComponent<CircleCollider2D>();
         speed = -Mathf.Abs(speed);
     }
 
     void Update()
     {
+        if (mode == Mode.Roll)
+            return;
+
         animationTimer += Time.deltaTime;
 
         if (animationTimer > 0.1f)
@@ -54,13 +68,29 @@ public class Enemy1 : Character
         {
             if (contact.normal.x >= 0.7f)
             {
-                speed = Mathf.Abs(speed);
-                sr.flipX = true;
+                if (mode == Mode.Roll)
+                {
+                    rb.velocity = new Vector2(5f, rb.velocity.y);
+                    rb.angularVelocity = -1000f;
+                }
+                else
+                {
+                    speed = Mathf.Abs(speed);
+                    sr.flipX = true;
+                }
             }
             if (contact.normal.x <= -0.7f)
             {
-                speed = -Mathf.Abs(speed);
-                sr.flipX = false;
+                if (mode == Mode.Roll)
+                {
+                    rb.velocity = new Vector2(-5f, rb.velocity.y);
+                    rb.angularVelocity = 1000f;
+                }
+                else
+                {
+                    speed = -Mathf.Abs(speed);
+                    sr.flipX = false;
+                }
             }
 
             Player player = contact.collider.gameObject.GetComponent<Player>();
@@ -72,6 +102,7 @@ public class Enemy1 : Character
                     rb.velocity = new Vector2(Random.Range(-3f, 3f), 3f);
                     rb.angularVelocity = 1000f;
                     bc.enabled = false;
+                    cc.enabled = false;
                     Destroy(this);
                     Destroy(this.gameObject, 5f);
                     continue;
@@ -79,10 +110,22 @@ public class Enemy1 : Character
 
                 if (contact.normal.y <= -0.7f)
                 {
-                    this.transform.localScale = new Vector3(1f, 0.25f, 1f);
                     contact.rigidbody.velocity += new Vector2(0f, 5f);
-                    Destroy(this);
-                    Destroy(this.gameObject, 5f);
+                    sr.sprite = rollSprites;
+                    rb.constraints = RigidbodyConstraints2D.None;
+                    if (player.transform.position.x < this.transform.position.x)
+                    {
+                        rb.velocity = new Vector2(5f, rb.velocity.y);
+                        rb.angularVelocity = -1000f;
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(-5f, rb.velocity.y);
+                        rb.angularVelocity = 1000f;
+                    }
+                    bc.enabled = false;
+                    cc.enabled = true;
+                    mode = Mode.Roll;
                 }
 
                 if (contact.normal.x >= 0.7f || contact.normal.x <= -0.7f)
@@ -91,6 +134,21 @@ public class Enemy1 : Character
                         player.form = Player.Form.Normal;
                     else
                         Destroy(player.gameObject);
+                }
+                continue;
+            }
+
+            Character character = contact.collider.gameObject.GetComponent<Character>();
+            if (mode == Mode.Roll && character != null)
+            {
+                if (contact.normal.x >= 0.7f || contact.normal.x <= -0.7f)
+                {
+                    contact.rigidbody.constraints = RigidbodyConstraints2D.None;
+                    contact.rigidbody.velocity = new Vector2(Random.Range(-3f, 3f), 3f);
+                    contact.rigidbody.angularVelocity = 1000f;
+                    character.GetComponent<Collider2D>().enabled = false;
+                    Destroy(character);
+                    Destroy(character.gameObject, 5f);
                 }
             }
         }

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50059201011539264}
   - component: {fileID: 61074822740176988}
   - component: {fileID: 114611559466372036}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: UmeBlock
   m_TagString: Untagged
   m_Icon: {fileID: 2800000, guid: 6fd7599c556634245873e9d5334cd007, type: 3}
