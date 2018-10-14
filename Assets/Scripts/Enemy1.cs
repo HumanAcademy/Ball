@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(Rigidbody2D))]
-public class Enemy1 : MonoBehaviour
+public class Enemy1 : Enemy
 {
     [SerializeField] float speed;
     [SerializeField] Sprite[] walkSprites;
     SpriteRenderer sr = null;
-    Rigidbody2D rb = null;
     int walkSpriteIndex = 0;
     float animationTimer = 0f;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         sr = this.GetComponent<SpriteRenderer>();
-        rb = this.GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -42,33 +41,22 @@ public class Enemy1 : MonoBehaviour
         rb.velocity = velocity;
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    protected override void OnCollisionStay2D(Collision2D collision)
     {
-        for (int i = 0; i < collision.contacts.Length; i++)
+        base.OnCollisionStay2D(collision);
+
+        foreach (var contact in collision.contacts)
         {
-            if (collision.contacts[i].collider.tag == "Player")
+            if (contact.normal.x > 0.5f)
             {
-                if (collision.contacts[i].normal.y < -0.5f)
-                {
-                    this.transform.localScale = new Vector3(1f, 0.25f, 1f);
-                    collision.contacts[i].rigidbody.velocity += new Vector2(0f, 2f);
-                    Destroy(this);
-                }
+                speed = Mathf.Abs(speed);
+                sr.flipX = true;
             }
-            else
+            if (contact.normal.x < -0.5f)
             {
-                if (collision.contacts[i].normal.x > 0.5f)
-                {
-                    speed = Mathf.Abs(speed);
-                    sr.flipX = true;
-                }
-                if (collision.contacts[i].normal.x < -0.5f)
-                {
-                    speed = -Mathf.Abs(speed);
-                    sr.flipX = false;
-                }
+                speed = -Mathf.Abs(speed);
+                sr.flipX = false;
             }
         }
     }
-
 }

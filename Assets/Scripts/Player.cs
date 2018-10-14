@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(ParticleSystem))]
-public class Player : MonoBehaviour
+public class Player : Character
 {
     public enum Form
     {
@@ -23,7 +23,6 @@ public class Player : MonoBehaviour
     Rigidbody2D rb = null;
     CircleCollider2D cc = null;
     ParticleSystem ps = null;
-    bool isGround = false;
     float fireTimer = 0f;
 
     Form _form = Form.Normal;
@@ -143,28 +142,5 @@ public class Player : MonoBehaviour
 
         cameraPosition = new Vector3(Mathf.Max(size.x, cameraPosition.x), Mathf.Max(size.y, cameraPosition.y), 0f);
         Camera.main.transform.position = cameraPosition;
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        isGround = false;
-
-        for (int i = 0; i < collision.contacts.Length; i++)
-        {
-            if (collision.contacts[i].normal.y > 0.5f)
-            {
-                isGround = true;
-            }
-        }
-    }
-
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        OnCollisionEnter2D(collision);
-    }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        OnCollisionEnter2D(collision);
     }
 }

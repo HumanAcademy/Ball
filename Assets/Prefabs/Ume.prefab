@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 212060225273879714}
   - component: {fileID: 50956875770490362}
   - component: {fileID: 61932423983991396}
-  - component: {fileID: 114522945904624058}
+  - component: {fileID: 114098877700044836}
   m_Layer: 10
-  m_Name: Habanero
+  m_Name: Ume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114522945904624058
+--- !u!114 &114098877700044836
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1401048417107810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37e5cef14410b9f498c9137fdb2cd362, type: 3}
+  m_Script: {fileID: 11500000, guid: 282396e1858b43b4eaf56f876877be72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &212060225273879714
@@ -134,7 +134,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2e199feb813cda74bb92666e74a619c2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6fd7599c556634245873e9d5334cd007, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
