@@ -5,12 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CircleCollider2D))]
+[RequireComponent(typeof(ParticleSystem))]
 public class Player : MonoBehaviour
 {
     enum Mode
     {
         Normal,
         Big,
+        Fire,
     }
 
     [SerializeField] float walkSpeed;
@@ -21,14 +23,17 @@ public class Player : MonoBehaviour
     SpriteRenderer sr = null;
     Rigidbody2D rb = null;
     CircleCollider2D cc = null;
+    ParticleSystem ps = null;
     bool isGround = false;
     Mode mode = Mode.Normal;
+    float speedMultiplier = 1f;
 
     void Start()
     {
         sr = this.GetComponent<SpriteRenderer>();
         rb = this.GetComponent<Rigidbody2D>();
         cc = this.GetComponent<CircleCollider2D>();
+        ps = this.GetComponent<ParticleSystem>();
     }
 
     void Update()
@@ -38,6 +43,7 @@ public class Player : MonoBehaviour
         {
             speed = runSpeed;
         }
+        speed *= speedMultiplier;
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -69,9 +75,19 @@ public class Player : MonoBehaviour
             rb.velocity -= new Vector2(0f, Mathf.Abs(rb.velocity.y / 2f));
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            this.SetMode(Mode.Normal);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             this.SetMode(Mode.Big);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            this.SetMode(Mode.Fire);
         }
     }
 
@@ -111,15 +127,32 @@ public class Player : MonoBehaviour
     void SetMode(Mode mode)
     {
         this.mode = mode;
-        switch(mode)
+        ParticleSystem.ShapeModule shape = ps.shape;
+
+        switch (mode)
         {
             case Mode.Normal:
                 cc.radius = 0.5f;
                 sr.sprite = normalSprite;
+                sr.color = Color.white;
+                shape.radius = 0.6f;
+                ps.Stop();
+                speedMultiplier = 1f;
                 break;
+
             case Mode.Big:
                 cc.radius = 0.75f;
                 sr.sprite = bigSprite;
+                sr.color = Color.white;
+                shape.radius = 0.8f;
+                ps.Stop();
+                speedMultiplier = 1f;
+                break;
+
+            case Mode.Fire:
+                sr.color = new Color(0.5f, 0.15f, 0f);
+                ps.Play();
+                speedMultiplier = 3f;
                 break;
         }
     }
