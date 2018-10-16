@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(ParticleSystem))]
 public class Player : Character
@@ -14,18 +12,18 @@ public class Player : Character
         Big,
     }
 
-    [SerializeField] float walkSpeed;
-    [SerializeField] float runSpeed;
-    [SerializeField] float jump;
-    [SerializeField] Sprite normalSprite;
-    [SerializeField] Sprite bigSprite;
-    SpriteRenderer sr = null;
-    Rigidbody2D rb = null;
-    CircleCollider2D cc = null;
-    ParticleSystem ps = null;
-    float fireTimer = 0f;
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float runSpeed;
+    [SerializeField] private float jump;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite bigSprite;
 
-    Form _form = Form.Normal;
+    public CircleCollider2D circleCollider2D = null;
+    public ParticleSystem particleSystem = null;
+
+    private float fireTimer = 0f;
+
+    private Form _form = Form.Normal;
     public Form form
     {
         get
@@ -36,25 +34,25 @@ public class Player : Character
         {
             _form = value;
 
-            ParticleSystem.ShapeModule shape = ps.shape;
+            ParticleSystem.ShapeModule shape = particleSystem.shape;
             switch (_form)
             {
                 case Form.Normal:
-                    cc.radius = 0.5f;
-                    sr.sprite = normalSprite;
+                    circleCollider2D.radius = 0.5f;
+                    spriteRenderer.sprite = normalSprite;
                     shape.radius = 0.6f;
                     break;
 
                 case Form.Big:
-                    cc.radius = 0.75f;
-                    sr.sprite = bigSprite;
+                    circleCollider2D.radius = 0.75f;
+                    spriteRenderer.sprite = bigSprite;
                     shape.radius = 0.8f;
                     break;
             }
         }
     }
 
-    bool _isFire;
+    private bool _isFire = false;
     public bool isFire
     {
         get
@@ -67,29 +65,32 @@ public class Player : Character
 
             if (_isFire)
             {
-                sr.color = new Color(0.5f, 0.15f, 0f);
-                ps.Play();
+                spriteRenderer.color = new Color(0.5f, 0.15f, 0f);
+                rigidbody2D.mass = 100f;
+                particleSystem.Play();
                 fireTimer = 10f;
             }
             else
             {
-                sr.color = Color.white;
-                ps.Stop();
-                fireTimer = 0f;
+                spriteRenderer.color = Color.white;
+                rigidbody2D.mass = 1f;
+                particleSystem.Stop();
             }
         }
     }
 
-    void Start()
+    protected override void Start()
     {
-        sr = this.GetComponent<SpriteRenderer>();
-        rb = this.GetComponent<Rigidbody2D>();
-        cc = this.GetComponent<CircleCollider2D>();
-        ps = this.GetComponent<ParticleSystem>();
+        base.Start();
+
+        circleCollider2D = this.GetComponent<CircleCollider2D>();
+        particleSystem = this.GetComponent<ParticleSystem>();
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+
         float speed = walkSpeed;
         if (Input.GetKey(KeyCode.X))
             speed = runSpeed;
@@ -106,35 +107,29 @@ public class Player : Character
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             this.transform.localScale = new Vector3(-1f, 1f, 1f);
-            rb.angularVelocity += speed;
-            if (!isGround && rb.velocity.x > -3f)
-            {
-                rb.velocity -= new Vector2(speed * 0.001f, 0f);
-            }
+            rigidbody2D.angularVelocity += speed;
+
+            if (!isGround && rigidbody2D.velocity.x > -3f)
+                rigidbody2D.velocity -= new Vector2(speed * 0.001f, 0f);
         }
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             this.transform.localScale = new Vector3(1f, 1f, 1f);
-            rb.angularVelocity -= speed;
-            if (!isGround && rb.velocity.x < 3f)
-            {
-                rb.velocity += new Vector2(speed * 0.001f, 0f);
-            }
+            rigidbody2D.angularVelocity -= speed;
+
+            if (!isGround && rigidbody2D.velocity.x < 3f)
+                rigidbody2D.velocity += new Vector2(speed * 0.001f, 0f);
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && isGround)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jump);
-        }
+        if (isGround && Input.GetKeyDown(KeyCode.Z))
+            rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jump);
 
         if (Input.GetKeyUp(KeyCode.Z))
-        {
-            rb.velocity -= new Vector2(0f, Mathf.Abs(rb.velocity.y / 2f));
-        }
+            rigidbody2D.velocity -= new Vector2(0f, Mathf.Abs(rigidbody2D.velocity.y / 2f));
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         Vector2 size = new Vector2(Camera.main.orthographicSize * Camera.main.aspect, Camera.main.orthographicSize);
 
