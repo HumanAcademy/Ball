@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class Enemy : Character
+public abstract class Enemy : Character
 {
-    [SerializeField] protected float speed;
-
-    public Collider2D collider2D;
-
-    float moveDirection = -1f;
+    [HideInInspector] public Collider2D collider2D;
 
     protected override void Start()
     {
@@ -18,16 +14,7 @@ public class Enemy : Character
         collider2D = this.GetComponent<Collider2D>();
     }
 
-    protected virtual void Update()
-    {
-        Vector2 velocity = rigidbody2D.velocity;
-
-        velocity.x += moveDirection * speed;
-        velocity.x *= 0.9f;
-
-        rigidbody2D.velocity = velocity;
-    }
-
+    // 踏まれた時の処理
     public virtual void Tread(ContactPoint2D contact)
     {
         this.transform.position += new Vector3(0f, -0.25f, 0f);
@@ -37,16 +24,19 @@ public class Enemy : Character
         Destroy(this.gameObject, 5f);
     }
 
+    // 吹っ飛ばされた時の処理
     public virtual void Knock(ContactPoint2D contact)
     {
+        Debug.Log("Knock");
         rigidbody2D.constraints = RigidbodyConstraints2D.None;
         rigidbody2D.velocity = new Vector2(contact.rigidbody.velocity.x, 5f);
-        rigidbody2D.angularVelocity = contact.rigidbody.velocity.x * -100f;
+        rigidbody2D.angularVelocity = contact.rigidbody.velocity.x * -500f;
         collider2D.enabled = false;
         Destroy(this);
         Destroy(this.gameObject, 5f);
     }
 
+    // プレイヤーに当たった時の処理
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         foreach (var contact in collision.contacts)
@@ -60,10 +50,10 @@ public class Enemy : Character
                 }
                 else
                 {
-                    if (contact.normal.y < -0.9f)
+                    if (contact.normal.y < -slopeThreshold.y)
                         Tread(contact);
 
-                    if (contact.normal.x > 0.9f || contact.normal.x < -0.9f)
+                    if (contact.normal.x > slopeThreshold.x || contact.normal.x < -slopeThreshold.x)
                     {
                         if (player.form == Player.Form.Big)
                             player.form = Player.Form.Normal;
@@ -72,28 +62,11 @@ public class Enemy : Character
                     }
                 }
             }
-        }
-    }
 
-    protected override void OnCollisionStay2D(Collision2D collision)
-    {
-        base.OnCollisionStay2D(collision);
-
-        foreach (var contact in collision.contacts)
-        {
-            if (contact.collider.gameObject.layer == LayerMask.NameToLayer("Stage") ||
-                contact.collider.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            if (contact.collider.gameObject.layer == LayerMask.NameToLayer("Object"))
             {
-                if (contact.normal.x > 0.9f)
-                {
-                    moveDirection = Mathf.Abs(moveDirection);
-                    spriteRenderer.flipX = true;
-                }
-                if (contact.normal.x < -0.9f)
-                {
-                    moveDirection = -Mathf.Abs(moveDirection);
-                    spriteRenderer.flipX = false;
-                }
+                if (contact.rigidbody.velocity.sqrMagnitude > Mathf.Pow(10f, 2f))
+                    Knock(contact);
             }
         }
     }

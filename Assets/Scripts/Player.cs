@@ -87,8 +87,10 @@ public class Player : Character
         particleSystem = this.GetComponent<ParticleSystem>();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         float speed = walkSpeed;
         if (Input.GetKey(KeyCode.X))
             speed = runSpeed;
