@@ -2,11 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Rigidbody2D))]
+public abstract class Character : MonoBehaviour
 {
+    public SpriteRenderer spriteRenderer = null;
+    public Rigidbody2D rigidbody2D = null;
+
     protected bool isGround = false;
 
-    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void Start()
+    {
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
+        rigidbody2D = this.GetComponent<Rigidbody2D>();
+    }
+
+    protected virtual void OnCollisionStay2D(Collision2D collision)
     {
         isGround = false;
 
@@ -19,13 +30,8 @@ public class Character : MonoBehaviour
         }
     }
 
-    protected virtual void OnCollisionStay2D(Collision2D collision)
-    {
-        OnCollisionEnter2D(collision);
-    }
-
     protected virtual void OnCollisionExit2D(Collision2D collision)
     {
-        OnCollisionEnter2D(collision);
+        isGround = false;
     }
 }

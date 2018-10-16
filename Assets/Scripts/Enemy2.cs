@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(CircleCollider2D))]
 public class Enemy2 : Character
@@ -70,8 +68,7 @@ public class Enemy2 : Character
             {
                 if (mode == Mode.Roll)
                 {
-                    rb.velocity = new Vector2(5f, rb.velocity.y);
-                    rb.angularVelocity = -1000f;
+                    rb.velocity = new Vector2(10f, rb.velocity.y);
                 }
                 else
                 {
@@ -83,8 +80,7 @@ public class Enemy2 : Character
             {
                 if (mode == Mode.Roll)
                 {
-                    rb.velocity = new Vector2(-5f, rb.velocity.y);
-                    rb.angularVelocity = 1000f;
+                    rb.velocity = new Vector2(-10f, rb.velocity.y);
                 }
                 else
                 {
@@ -115,13 +111,11 @@ public class Enemy2 : Character
                     rb.constraints = RigidbodyConstraints2D.None;
                     if (player.transform.position.x < this.transform.position.x)
                     {
-                        rb.velocity = new Vector2(5f, rb.velocity.y);
-                        rb.angularVelocity = -1000f;
+                        rb.velocity = new Vector2(10f, rb.velocity.y);
                     }
                     else
                     {
-                        rb.velocity = new Vector2(-5f, rb.velocity.y);
-                        rb.angularVelocity = 1000f;
+                        rb.velocity = new Vector2(-10f, rb.velocity.y);
                     }
                     bc.enabled = false;
                     cc.enabled = true;
