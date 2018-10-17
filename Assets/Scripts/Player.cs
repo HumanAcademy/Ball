@@ -66,7 +66,7 @@ public class Player : Character
             if (_isFire)
             {
                 spriteRenderer.color = new Color(0.5f, 0.15f, 0f);
-                rigidbody2D.mass = 100f;
+                rigidbody2D.mass = 1000f;
                 particleSystem.Play();
                 fireTimer = 10f;
             }

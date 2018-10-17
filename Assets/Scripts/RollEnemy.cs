@@ -22,9 +22,8 @@ public class RollEnemy : WalkEnemy
 
             if (_isRolling)
             {
-                this.gameObject.layer = LayerMask.NameToLayer("Object");
                 spriteRenderer.sprite = rollSprite;
-                rigidbody2D.mass = 10f;
+                rigidbody2D.mass = 100f;
                 collider2D.enabled = false;
                 circleCollider2D.enabled = true;
             }
@@ -43,9 +42,16 @@ public class RollEnemy : WalkEnemy
     protected override void Update()
     {
         if (isRolling)
-            return;
-
-        base.Update();
+        {
+            if (Mathf.Abs(rigidbody2D.velocity.x) > 0.1f)
+                this.gameObject.layer = LayerMask.NameToLayer("Object");
+            else
+                this.gameObject.layer = LayerMask.NameToLayer("Enemy");
+        }
+        else
+        {
+            base.Update();
+        }
     }
 
     // 踏まれた時の処理
@@ -62,7 +68,6 @@ public class RollEnemy : WalkEnemy
 
         contact.rigidbody.velocity = new Vector2(contact.rigidbody.velocity.x, 5f);
 
-        Debug.Log(rigidbody2D.velocity.x);
         if (Mathf.Abs(rigidbody2D.velocity.x) < 0.1f)
         {
             float rollDirection = Mathf.Sign(this.transform.position.x - contact.collider.transform.position.x);
@@ -82,7 +87,26 @@ public class RollEnemy : WalkEnemy
 
         circleCollider2D.enabled = false;
     }
-    
+
+    // 回転状態で回転してないときプレイヤーを消さない
+    protected override void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isRolling && Mathf.Abs(rigidbody2D.velocity.x) < 0.1f)
+        {
+            foreach (var contact in collision.contacts)
+            {
+                if (contact.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+                {
+                    Tread(contact);
+                }
+            }
+        }
+        else
+        {
+            base.OnCollisionEnter2D(collision);
+        }
+    }
+
     // 回転状態の時、壁に当たったら跳ね返す
     protected override void OnCollisionStay2D(Collision2D collision)
     {
