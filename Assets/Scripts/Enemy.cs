@@ -27,7 +27,6 @@ public abstract class Enemy : Character
     // 吹っ飛ばされた時の処理
     public virtual void Knock(ContactPoint2D contact)
     {
-        Debug.Log("Knock");
         rigidbody2D.constraints = RigidbodyConstraints2D.None;
         rigidbody2D.velocity = new Vector2(contact.rigidbody.velocity.x, 5f);
         rigidbody2D.angularVelocity = contact.rigidbody.velocity.x * -500f;
@@ -65,7 +64,7 @@ public abstract class Enemy : Character
 
             if (contact.collider.gameObject.layer == LayerMask.NameToLayer("Object"))
             {
-                if (contact.rigidbody.velocity.sqrMagnitude > Mathf.Pow(10f, 2f))
+                if (Mathf.Abs(contact.rigidbody.velocity.x) > 1f)
                     Knock(contact);
             }
         }
