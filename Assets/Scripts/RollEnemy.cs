@@ -24,6 +24,7 @@ public class RollEnemy : WalkEnemy
             {
                 spriteRenderer.sprite = rollSprite;
                 rigidbody2D.mass = 100f;
+                rigidbody2D.constraints = RigidbodyConstraints2D.None;
                 collider2D.enabled = false;
                 circleCollider2D.enabled = true;
             }
@@ -31,6 +32,7 @@ public class RollEnemy : WalkEnemy
             {
                 this.gameObject.layer = LayerMask.NameToLayer("Enemy");
                 rigidbody2D.mass = 1f;
+                rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
                 collider2D.enabled = true;
                 circleCollider2D.enabled = false;
             }
