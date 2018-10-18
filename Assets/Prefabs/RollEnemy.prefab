@@ -22,9 +22,10 @@ GameObject:
   - component: {fileID: 212373719735328512}
   - component: {fileID: 50864810533482414}
   - component: {fileID: 61184048584423884}
-  - component: {fileID: 114030768975974804}
+  - component: {fileID: 58320455781275426}
+  - component: {fileID: 114687909313639150}
   m_Layer: 10
-  m_Name: Enemy1
+  m_Name: RollEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,13 +57,28 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
+--- !u!58 &58320455781275426
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631993472424950}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 9e1ea65bef583c845bbe893f13211029, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4
 --- !u!61 &61184048584423884
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -88,7 +104,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.7}
   m_EdgeRadius: 0
---- !u!114 &114030768975974804
+--- !u!114 &114687909313639150
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -96,13 +112,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1631993472424950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf955761d43910d408413d524ffc8ba3, type: 3}
+  m_Script: {fileID: 11500000, guid: ba229c3612ba3644fa1324b7dcf0ec31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.3
+  spriteRenderer: {fileID: 0}
+  rigidbody2D: {fileID: 0}
+  collider2D: {fileID: 0}
   walkSprites:
-  - {fileID: 21300000, guid: e6fa0fe4b94b4ab47addfb029757f181, type: 3}
-  - {fileID: 21300002, guid: e6fa0fe4b94b4ab47addfb029757f181, type: 3}
+  - {fileID: 21300000, guid: 7bd977c3e9b24874f813abede1e1ad07, type: 3}
+  - {fileID: 21300002, guid: 7bd977c3e9b24874f813abede1e1ad07, type: 3}
+  speed: 0.3
+  rollSprite: {fileID: 21300004, guid: 7bd977c3e9b24874f813abede1e1ad07, type: 3}
+  circleCollider2D: {fileID: 58320455781275426}
 --- !u!212 &212373719735328512
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -138,7 +159,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e6fa0fe4b94b4ab47addfb029757f181, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7bd977c3e9b24874f813abede1e1ad07, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
