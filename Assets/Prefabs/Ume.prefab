@@ -19,10 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4725405377024444}
+  - component: {fileID: 114098877700044836}
   - component: {fileID: 212060225273879714}
   - component: {fileID: 50956875770490362}
   - component: {fileID: 58787352687334364}
-  - component: {fileID: 114098877700044836}
   m_Layer: 11
   m_Name: Ume
   m_TagString: Untagged

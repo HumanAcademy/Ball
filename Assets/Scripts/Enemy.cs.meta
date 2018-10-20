@@ -3,7 +3,12 @@ guid: 8e19236bd591aef4bb1cc6faf123e7cc
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - spriteRenderer: {instanceID: 0}
+  - rigidbody2D: {instanceID: 0}
+  - audioSource: {instanceID: 0}
+  - treadSound: {fileID: 8300000, guid: b939d58c9ff7d394b8209c19ee3dbea8, type: 3}
+  - collider2D: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
