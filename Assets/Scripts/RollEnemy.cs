@@ -8,6 +8,7 @@ public class RollEnemy : WalkEnemy
 {
     [SerializeField] Sprite rollSprite;
     [SerializeField] CircleCollider2D circleCollider2D;
+    [SerializeField] AudioClip collisionSound;
 
     private bool _isRolling = false;
     protected bool isRolling
@@ -80,6 +81,8 @@ public class RollEnemy : WalkEnemy
             rigidbody2D.velocity = new Vector2(0f, rigidbody2D.velocity.y);
             rigidbody2D.angularVelocity = 0f;
         }
+
+        audioSource.PlayOneShot(treadSound);
     }
 
     // 吹っ飛んだ時にCircleColliderを無効にする
@@ -119,10 +122,12 @@ public class RollEnemy : WalkEnemy
                 if (contact.normal.x > slopeThreshold.x)
                 {
                     rigidbody2D.velocity = new Vector2(10f, rigidbody2D.velocity.y);
+                    audioSource.PlayOneShot(collisionSound);
                 }
                 if (contact.normal.x < -slopeThreshold.x)
                 {
                     rigidbody2D.velocity = new Vector2(-10f, rigidbody2D.velocity.y);
+                    audioSource.PlayOneShot(collisionSound);
                 }
             }
         }

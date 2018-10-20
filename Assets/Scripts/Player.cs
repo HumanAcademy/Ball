@@ -17,9 +17,10 @@ public class Player : Character
     [SerializeField] private float jump;
     [SerializeField] private Sprite normalSprite;
     [SerializeField] private Sprite bigSprite;
+    [SerializeField] private AudioClip jumpSound;
 
-    public CircleCollider2D circleCollider2D = null;
-    public ParticleSystem particleSystem = null;
+    [HideInInspector] public CircleCollider2D circleCollider2D = null;
+    [HideInInspector] public ParticleSystem particleSystem = null;
 
     private float fireTimer = 0f;
 
@@ -123,7 +124,10 @@ public class Player : Character
         }
 
         if (isGround && Input.GetKeyDown(KeyCode.Z))
+        {
             rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jump);
+            audioSource.PlayOneShot(jumpSound);
+        }
 
         if (Input.GetKeyUp(KeyCode.Z))
             rigidbody2D.velocity -= new Vector2(0f, Mathf.Abs(rigidbody2D.velocity.y / 2f));

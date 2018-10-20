@@ -3,7 +3,15 @@ guid: 4bfa0ed8f608b8c4780154a949950f79
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - spriteRenderer: {instanceID: 0}
+  - rigidbody2D: {instanceID: 0}
+  - audioSource: {instanceID: 0}
+  - normalSprite: {instanceID: 0}
+  - bigSprite: {instanceID: 0}
+  - jumpSound: {fileID: 8300000, guid: a1949e2193e61d14eb948e3c647c11dd, type: 3}
+  - circleCollider2D: {instanceID: 0}
+  - particleSystem: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
