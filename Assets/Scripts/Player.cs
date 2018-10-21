@@ -18,6 +18,8 @@ public class Player : Character
     [SerializeField] private Sprite normalSprite;
     [SerializeField] private Sprite bigSprite;
     [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip stageAudio;
+    [SerializeField] private AudioClip fireAudio;
 
     [HideInInspector] public CircleCollider2D circleCollider2D = null;
     [HideInInspector] public ParticleSystem particleSystem = null;
@@ -69,6 +71,7 @@ public class Player : Character
                 spriteRenderer.color = new Color(0.5f, 0.15f, 0f);
                 rigidbody2D.mass = 1000f;
                 particleSystem.Play();
+                SetAudio(fireAudio);
                 fireTimer = 10f;
             }
             else
@@ -76,6 +79,7 @@ public class Player : Character
                 spriteRenderer.color = Color.white;
                 rigidbody2D.mass = 1f;
                 particleSystem.Stop();
+                SetAudio(stageAudio, true);
             }
         }
     }
@@ -86,6 +90,8 @@ public class Player : Character
 
         circleCollider2D = this.GetComponent<CircleCollider2D>();
         particleSystem = this.GetComponent<ParticleSystem>();
+
+        SetAudio(stageAudio);
     }
 
     protected override void Update()
@@ -141,5 +147,42 @@ public class Player : Character
 
         cameraPosition = new Vector3(Mathf.Max(size.x, cameraPosition.x), Mathf.Max(size.y, cameraPosition.y), 0f);
         Camera.main.transform.position = cameraPosition;
+    }
+
+    private void SetAudio(AudioClip audio, bool fade = false)
+    {
+        if (fade)
+        {
+            StartCoroutine(FadeAudio(audio));
+        }
+        else
+        {
+            audioSource.volume = 1f;
+            audioSource.clip = audio;
+            audioSource.Play();
+        }
+    }
+
+    private IEnumerator FadeAudio(AudioClip audio)
+    {
+        float count = 1f;
+        while (count > 0f)
+        {
+            count -= 0.05f;
+            audioSource.volume = count;
+            yield return null;
+        }
+
+        audioSource.clip = audio;
+        audioSource.Play();
+
+        while (count < 1f)
+        {
+            count += 0.05f;
+            audioSource.volume = count;
+            yield return null;
+        }
+
+        audioSource.volume = 1f;
     }
 }
