@@ -227,6 +227,8 @@ MonoBehaviour:
   normalSprite: {fileID: 21300000, guid: 7843b10cf48b30743ba7ec3985a94cb2, type: 3}
   bigSprite: {fileID: 21300000, guid: 2ab7e1ff6fbad2a4c8ee339aad66b1de, type: 3}
   jumpSound: {fileID: 8300000, guid: a1949e2193e61d14eb948e3c647c11dd, type: 3}
+  stageAudio: {fileID: 8300000, guid: 06da33e39e99a354498b7271f14551ef, type: 3}
+  fireAudio: {fileID: 8300000, guid: f9956ef8f18fce241808cd03cbec6774, type: 3}
   circleCollider2D: {fileID: 0}
   particleSystem: {fileID: 0}
 --- !u!198 &198007584620528138

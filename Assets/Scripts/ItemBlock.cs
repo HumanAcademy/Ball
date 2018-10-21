@@ -10,6 +10,8 @@ public class ItemBlock : MonoBehaviour
 
     [HideInInspector] public AudioSource audioSource = null;
 
+    bool isPutting = false;
+
     void Start()
     {
         audioSource = this.GetComponent<AudioSource>();
@@ -21,12 +23,31 @@ public class ItemBlock : MonoBehaviour
         {
             if (contact.normal.y >= 0.7f)
             {
-                GameObject prefab = Instantiate(item);
-                prefab.transform.position = this.transform.position + new Vector3(0f, 1f, 0f);
-                prefab.GetComponent<Rigidbody2D>().velocity = new Vector2(3f, 3f);
-                audioSource.PlayOneShot(itemSound);
-                Destroy(this);
+                if (!isPutting)
+                    StartCoroutine(PutItem());
             }
         }
+    }
+
+    IEnumerator PutItem()
+    {
+        isPutting = true;
+
+        GameObject prefab = Instantiate(item);
+        prefab.GetComponent<Collider2D>().enabled = false;
+        prefab.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+        prefab.transform.position = this.transform.position;
+        audioSource.PlayOneShot(itemSound);
+
+        for (int i = 0; i < 60; i++)
+        {
+            prefab.transform.position += new Vector3(0f, 0.9f / 60f, 0f);
+            yield return null;
+        }
+
+        prefab.GetComponent<Collider2D>().enabled = true;
+        prefab.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        prefab.GetComponent<Rigidbody2D>().velocity = new Vector2(3f, 5f);
+        Destroy(this);
     }
 }
