@@ -56,6 +56,7 @@ public class Player : Character
     }
 
     private bool _isFire = false;
+
     public bool isFire
     {
         get
